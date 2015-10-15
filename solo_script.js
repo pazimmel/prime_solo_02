@@ -5,6 +5,7 @@
 // ! ! !
 // Three Bugs
 
+//I changed these arrays into objects
 var arrayAtticus = {
   name: "Atticus", 
   number: "2405", 
@@ -28,9 +29,38 @@ var arrayScout = {
   name: "Scout", 
   number: "6243", 
   salary: "74750",
-  rating: 5}; //declare variables
+  rating: 5
+}; //declare variables
 
 var array = [arrayAtticus, arrayJem, arrayBoo, arrayScout];
+
+var employeeObject = {
+    processEmployee: function calculateSTI(array){
+      var newArray = {}; //I want to return an object not an array now
+  
+        //establishing the object properties
+        newArray.name = array.name; 
+
+        var employeeNumber = array.number;
+        var baseSalary = array.salary;
+        var reviewScore = array.rating;
+
+        var bonus = getBaseSTI(reviewScore) + getYearAdjustment(employeeNumber) - getIncomeAdjustment(baseSalary);
+        if(bonus > 0.13){ //I think this is ok because the computation of bonus comes below this
+            bonus = 0.13;
+        }
+
+        //naming the object properties
+        //and making sure they are returned 
+        newArray["percent bonus"] = " "+bonus;
+        newArray["adjusted salary"] = " "+Math.round(baseSalary * (1.0 + bonus)); //not rounded
+        newArray.bonus = " "+(baseSalary * bonus); 
+        console.log(newArray.name + " " + newArray["percent bonus"] + " " + newArray["adjusted salary"] + " " + newArray.bonus);
+        newArray = newArray.name+": "+newArray["percent bonus"]+newArray["adjusted salary"]+newArray.bonus;
+
+      return newArray;
+    }
+  };
 
 //Create variables used to write to the DOM
 var newEl, newText, position;
@@ -40,36 +70,15 @@ position = document.getElementById('content');
 //Loop the array, extracting each array and writing information to the DOM
 //Note that the information is not 'clean'
 for(var i = 0; i < array.length; i++){
-	array[i] = calculateSTI(array[i]); 
+	//array[i] = calculateSTI(array[i]);
+  array[i] = employeeObject.processEmployee(array[i]); //now I'm running a method to determine array
  	newEl = document.createElement('li');
 	newText = document.createTextNode(array[i]);
 	newEl.appendChild(newText);
 	position.appendChild(newEl);
 }
+//creating a new object. This one will have a method
 
-function calculateSTI(array){
-  var newArray = {};
-
-  newArray.name = array.name;
-
-  var employeeNumber = array.number;
-  var baseSalary = array.salary;
-  var reviewScore = array.rating;
-
-  var bonus = getBaseSTI(reviewScore) + getYearAdjustment(employeeNumber) - getIncomeAdjustment(baseSalary);
-  if(bonus > 0.13){ //I think this is ok because the computation of bonus comes below this
-    bonus = 0.13;
-  }
-
-
-  newArray["percent bonus"] = " "+bonus;
-  newArray["adjusted salary"] = " "+Math.round(baseSalary * (1.0 + bonus)); //not rounded
-  newArray.bonus = " "+(baseSalary * bonus); 
-  console.log(newArray.name + " " + newArray["percent bonus"] + " " + newArray["adjusted salary"] + " " + newArray.bonus);
-  newArray = newArray.name+": "+newArray["percent bonus"]+newArray["adjusted salary"]+newArray.bonus;
-
-  return newArray;
-}
 
 function getBaseSTI(reviewScore){
   var basePercent;
