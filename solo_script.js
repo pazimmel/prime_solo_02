@@ -45,7 +45,7 @@ var employeeObject = {
         var baseSalary = array.salary;
         var reviewScore = array.rating;
 
-        var bonus = getBaseSTI(reviewScore) + getYearAdjustment(employeeNumber) - getIncomeAdjustment(baseSalary);
+        var bonus = employeeObject.getBaseSTI(reviewScore) + employeeObject.getYearAdjustment(employeeNumber) - employeeObject.getIncomeAdjustment(baseSalary);
         if(bonus > 0.13){ //I think this is ok because the computation of bonus comes below this
             bonus = 0.13;
         }
@@ -59,8 +59,47 @@ var employeeObject = {
         newArray = newArray.name+": "+newArray["percent bonus"]+newArray["adjusted salary"]+newArray.bonus;
 
       return newArray;
+    },
+
+    getBaseSTI: function (reviewScore){
+      var basePercent;
+      switch(reviewScore){
+        case 1:
+          basePercent = 0;
+        break;
+        case 2:
+          basePercent = 0;
+        break;
+        case 3:
+          basePercent = 0.04;
+        break;
+        case 4:
+          basePercent = 0.06;
+        break;
+        case 5:
+          basePercent = 0.10;
+        break;
+      }
+      return basePercent; // changed basePercent -1 to simply basePercent because that it what we want from this function
+    },
+
+    getYearAdjustment:function(employeeNumber){
+      var yearAdjustment = 0;
+      if(employeeNumber.length == 4){
+        yearAdjustment = 0.05;
+      }
+      return yearAdjustment;//I think this is ok
+    },
+
+    getIncomeAdjustment: function(salary){
+      var incomeAdjustment = 0;
+      salary = parseInt(salary);
+      if(salary > 65000){
+        incomeAdjustment = 0.01;
+      }
+      return incomeAdjustment;//this looks ok if I want my incomeAdjustment positive which I checked and I do
     }
-  };
+};
 
 //Create variables used to write to the DOM
 var newEl, newText, position;
@@ -77,10 +116,10 @@ for(var i = 0; i < array.length; i++){
 	newEl.appendChild(newText);
 	position.appendChild(newEl);
 }
-//creating a new object. This one will have a method
 
 
-function getBaseSTI(reviewScore){
+
+/*function getBaseSTI(reviewScore){
   var basePercent;
   switch(reviewScore){
     case 1:
@@ -117,4 +156,4 @@ function getIncomeAdjustment(salary){
     incomeAdjustment = 0.01;
   }
   return incomeAdjustment;//this looks ok if I want my incomeAdjustment positive which I checked and I do
-}
+}*/
