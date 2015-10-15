@@ -5,10 +5,30 @@
 // ! ! !
 // Three Bugs
 
-var arrayAtticus = ["Atticus", "2405", "47000", 3];
-var arrayJem = ["Jem", "62347", "63500", 4];
-var arrayBoo = ["Boo", "11435", "54000", 3];
-var arrayScout = ["Scout", "6243", "74750", 5]; //declare variables
+var arrayAtticus = {
+  name: "Atticus", 
+  number: "2405", 
+  salary: "47000",
+  rating: 3
+};
+
+var arrayJem = {
+  name: "Jem", 
+  number: "62347", 
+  salary: "63500",
+  rating: 4
+};
+var arrayBoo = {
+  name: "Boo", 
+  number: "11435",
+  salary: "54000",
+  rating: 3
+};
+var arrayScout = {
+  name: "Scout", 
+  number: "6243", 
+  salary: "74750",
+  rating: 5}; //declare variables
 
 var array = [arrayAtticus, arrayJem, arrayBoo, arrayScout];
 
@@ -20,7 +40,7 @@ position = document.getElementById('content');
 //Loop the array, extracting each array and writing information to the DOM
 //Note that the information is not 'clean'
 for(var i = 0; i < array.length; i++){
-	array[i] = calculateSTI(array[i]); //I think there is an error here. Should be calculateSTI(array[i])?
+	array[i] = calculateSTI(array[i]); 
  	newEl = document.createElement('li');
 	newText = document.createTextNode(array[i]);
 	newEl.appendChild(newText);
@@ -28,14 +48,13 @@ for(var i = 0; i < array.length; i++){
 }
 
 function calculateSTI(array){
-  var newArray = [];
+  var newArray = {};
 
-  newArray[0] = array[0];
+  newArray.name = array.name;
 
-  var employeeNumber = array[1];
-
-  var baseSalary = array[2];
-  var reviewScore = array[3];
+  var employeeNumber = array.number;
+  var baseSalary = array.salary;
+  var reviewScore = array.rating;
 
   var bonus = getBaseSTI(reviewScore) + getYearAdjustment(employeeNumber) - getIncomeAdjustment(baseSalary);
   if(bonus > 0.13){ //I think this is ok because the computation of bonus comes below this
@@ -43,11 +62,11 @@ function calculateSTI(array){
   }
 
 
-  newArray[1] = " "+bonus;
-  newArray[2] = " "+Math.round(baseSalary * (1.0 + bonus)); //not rounded
-  newArray[3] = " "+(baseSalary * bonus); 
-  console.log(newArray[0] + " " + newArray[1] + " " + newArray[2] + " " + newArray[3]);
-  newArray = newArray[0]+": "+newArray[1]+newArray[2]+newArray[3];
+  newArray["percent bonus"] = " "+bonus;
+  newArray["adjusted salary"] = " "+Math.round(baseSalary * (1.0 + bonus)); //not rounded
+  newArray.bonus = " "+(baseSalary * bonus); 
+  console.log(newArray.name + " " + newArray["percent bonus"] + " " + newArray["adjusted salary"] + " " + newArray.bonus);
+  newArray = newArray.name+": "+newArray["percent bonus"]+newArray["adjusted salary"]+newArray.bonus;
 
   return newArray;
 }
